@@ -1,0 +1,22 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-paper {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-text {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.icon-text p {
+  margin-left: 8px;
+}

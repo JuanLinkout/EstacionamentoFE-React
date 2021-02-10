@@ -1,0 +1,36 @@
+.carros-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.input-paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 80%;
+}
+
+.input-area {
+
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.input-container {
+  margin: 10px;
+}
+
+.input-text {
+  width: 400px;
+}
+
+.button-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

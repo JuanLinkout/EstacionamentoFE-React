@@ -1,0 +1,25 @@
+.carros-table-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.carros-table-paper {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+.carros-table-area {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.table-row {
+    text-decoration: none;
+}

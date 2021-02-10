@@ -1,0 +1,11 @@
+.estacionamento-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.body-content-container {
+  display: flex;
+  flex-grow: 1;
+}
