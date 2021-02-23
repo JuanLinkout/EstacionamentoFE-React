@@ -36,12 +36,20 @@ export default class Home extends Component {
           <DoneIcon />
             <p>Implementar feedback visual de loading e de ações feitas com sucesso</p>
           </div>
-
-          <h2>Próximos passos</h2>
           <div className="icon-text">
-            <TurnedInIcon />
+            <DoneIcon />
+            <p>Melhorar os tratamentos de erros no frontend</p>
+          </div>
+          <div className="icon-text">
+            <DoneIcon />
+            <p>Implementar o sistema de busca usando query e filtros</p>
+          </div>
+          <div className="icon-text">
+            <DoneIcon />
             <p>Melhorar os tratamentos de erros no backend</p>
           </div>
+
+          <h2>Próximos passos</h2>
           <div className="icon-text">
             <TurnedInIcon />
             <p>Implementar o uso do Redux no projeto</p>

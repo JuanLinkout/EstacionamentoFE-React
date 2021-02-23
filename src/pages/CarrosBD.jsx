@@ -6,20 +6,17 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
-import AlertBar from '../components/AlertBar';
+import CarrosForm from '../components/CarrosForm';
+
 import Loader from '../components/Loader';
-import { getCars, deleteCar } from '../utils/api';
+import { getCars, deleteCar, getCarsWithFilters } from '../utils/api';
 import { Link } from 'react-router-dom';
 
 import './CarrosBD.css';
-import './CarrosRegistrar.css';
 
 export default class CarrosRegistrar extends Component {
   constructor(props) {
@@ -66,8 +63,11 @@ export default class CarrosRegistrar extends Component {
     this.setState({ carros:  { ...this.initialState.carros } });
   }
 
-    // Função responsavel por garantir que o popup vai fechar.
-  handleCloseAlert = () => {
+  // Função responsavel por garantir que o popup vai fechar.
+  handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
     this.setState({ alertBar: { ...this.state.alertBar, open: false } });
   };
 
@@ -78,7 +78,7 @@ export default class CarrosRegistrar extends Component {
       const result = await response.json();
       this.setState({ rows: result });
     } catch (e) {
-      this.setState({ alertBar: { ...this.state.alertBar, text: `Erro: ${e}`, type: 'error' } });
+      this.setState({ alertBar: { open: true, text: `Error message: ${e}`, type: 'error' } });
     } finally {
       this.setState({ loading: false });
     }
@@ -93,46 +93,34 @@ export default class CarrosRegistrar extends Component {
     }
   }
 
+  getFilters = async (payload) => {
+    try {
+      const response = await getCarsWithFilters(payload);
+      const result = await response.json();
+      this.setState({ rows: result });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   componentDidMount() {
     this.runFetch();
   }
 
   render() {
     const { rows, categories, loading } = this.state;
-    const valores = { ...this.state.carros };
-    const { open, text, type } = this.state.alertBar; 
 
     return (
       <div className="carros-table-container">
-        <h1>Banco de Carros registrados</h1>
 
-        <AlertBar open={open} callback={this.handleCloseAlert} text={text} type={type} />
-
-        <Paper elevation={3} className="input-paper">
-          <div className="input-area">
-            {Object.keys(valores).map(key => (
-              <Box key={key} m={1}>
-                <TextField id={key} label={key.toUpperCase()} onChange={this.handleInputChange} value={this.state[key]} variant="outlined" className="input-text" />
-              </Box>
-            ))}
-          </div>
-          <div className="button-area">
-            <Box m={1}>
-              <Button variant="contained" color="primary" onClick={this.handleAddButtonClick}>
-                Procurar
-              </Button>
-            </Box>
-
-            <Box m={1}>
-              <Button variant="contained" onClick={this.handleResetButtonClick}>
-                Resetar
-              </Button>
-            </Box>
-          </div>
-        </Paper>
-
-        {loading ?
+        <CarrosForm message="Pesquisa feita com sucesso" firstButtonText="Procurar" callback={(payload) => this.getFilters(payload)} required={false}/>
+              
+        {
+          loading ?
+          /* Caso esteja carregando exibe o simbolo de loading */
           <Loader margin={3} size="5rem" /> :
+          /* Caso contrario verifica se a lista possui algum elemento. */
+          rows.length ?
           (<Paper elevation={3} className="carros-table-paper">
             <div className="carros-table-area">
               <TableContainer>
@@ -170,8 +158,10 @@ export default class CarrosRegistrar extends Component {
                 </Table>
               </TableContainer>
             </div>
-          </Paper>
-          )}
+          </Paper>) :
+          /* Caso esteja vazio não faz nada. */
+          <h4>Erro ao carregar os carros</h4>
+        }
       </div>
     );
   }

@@ -12,6 +12,22 @@ export const getCars = async () => {
     return response;
 }
 
+export const getCarsWithFilters = async (payload) => {
+    let query = '?';
+    Object.keys(payload).forEach(key => {
+        if (payload[key]) {
+            query += `${key}=${payload[key]}&`;
+        }
+    });
+
+    const response = await fetch(baseUrl + '/carros/filtros' + query, {
+        method: 'GET',
+        headers: myHeader,
+    });
+
+    return response;
+}
+
 export const getCarById = async (id) => {
     const response = await fetch(baseUrl + '/carros/' + id, {
         method: 'GET',
